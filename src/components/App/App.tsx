@@ -13,10 +13,10 @@ export default function App() {
     setVotes(prev => ({ ...prev, [type]: prev[type] + 1 }));
   };
 
-  const resetVotes = () =>
-    setVotes({ good: 0, neutral: 0, bad: 0 });
+  const resetVotes = () => setVotes({ good: 0, neutral: 0, bad: 0 });
 
   const totalVotes = votes.good + votes.neutral + votes.bad;
+  const positiveRate = totalVotes ? Math.round((votes.good / totalVotes) * 100) : 0;
   const canReset = totalVotes > 0;
 
   return (
@@ -25,7 +25,7 @@ export default function App() {
       <VoteOptions onVote={handleVote} onReset={resetVotes} canReset={canReset} />
 
       {canReset ? (
-        <VoteStats votes={votes} />
+        <VoteStats votes={votes} totalVotes={totalVotes} positiveRate={positiveRate} />
       ) : (
         <Notification />
       )}
